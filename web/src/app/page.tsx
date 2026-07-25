@@ -1,13 +1,37 @@
+import type { Metadata } from "next";
 import ProductCard from "@/components/ProductCard";
-import { allProducts, productsInCategory } from "@/lib/catalog";
+import JsonLd from "@/components/JsonLd";
+import { allProducts, productsInCategory, imgPath } from "@/lib/catalog";
+import { absUrl } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function HomePage() {
   const products = allProducts();
   const bestSellers = productsInCategory("gas-strut").slice(0, 4);
 
+  // ItemList structured data helps Google understand the storefront catalog.
+  const itemListLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Pop-Up Power Outlets",
+    itemListElement: products.slice(0, 30).map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: absUrl(`/products/${p.handle}`),
+      name: p.title,
+      image: absUrl(imgPath(p.variants[0]?.primary_image || "")),
+    })),
+  };
+
+
   return (
     <>
+      <JsonLd data={itemListLd} />
       <section className="hero">
+
         <div className="container center">
           <span className="pill">UL-Approved • Free US Shipping</span>
           <h1>Power that rises to the occasion.</h1>
