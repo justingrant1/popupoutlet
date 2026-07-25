@@ -81,3 +81,37 @@ change the amount charged.
 4. In Stripe → Webhooks, add an endpoint `https://<domain>/api/webhook` for
    `checkout.session.completed`, and set its signing secret as `STRIPE_WEBHOOK_SECRET`.
 ```
+
+## Get products on Google Shopping (free listings)
+
+The app auto-generates a Google Merchant product feed from `catalog.json` at:
+
+```
+https://popupoutlet.com/feed.xml
+```
+
+It emits **one entry per variant** (Black / Silver), grouped with `item_group_id`,
+with `title`, `description`, `link`, `image_link` (+ additional images), `price`,
+`sale_price` (when on sale), `availability`, `brand`, `mpn` (= SKU), `condition`,
+`google_product_category`, and `identifier_exists=false` (these are custom-brand
+goods with no GTIN/UPC — this prevents "missing GTIN" disapprovals).
+
+### One-time setup (done outside the code)
+1. **Domain:** point `popupoutlet.com` at Vercel (Settings → Domains) and set
+   `NEXT_PUBLIC_SITE_URL=https://popupoutlet.com` so all feed URLs are absolute.
+2. **Google Search Console:** add + verify the domain (also speeds up SEO indexing).
+3. **Google Merchant Center:** create an account, then verify/claim the same domain.
+4. **Add the feed:** Merchant Center → *Products → Feeds → Add* → *Scheduled fetch*,
+   URL = `https://popupoutlet.com/feed.xml`, fetch daily.
+5. **Account-level policies:** set **Shipping** (free US shipping) and **Return policy**
+   (30-day) to match the `/shipping` and `/returns` pages. Merchant Center requires
+   visible Shipping, Returns, Contact and Privacy pages — these live at `/shipping`,
+   `/returns`, `/contact`, `/privacy` and are linked in the footer.
+6. **Submit & wait:** item review takes a few hours to ~3 days. Once approved, products
+   appear in the free Google Shopping tab. (Shopping *ads* are optional and require a
+   linked Google Ads campaign.)
+
+> No GTINs: expect a non-blocking "limited performance without GTIN" warning — normal
+> for custom brands; items still list.
+
+

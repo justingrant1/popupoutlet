@@ -7,7 +7,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticEntries: MetadataRoute.Sitemap = [
     { url: absUrl("/"), lastModified: now, changeFrequency: "daily", priority: 1 },
+    { url: absUrl("/shipping"), lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: absUrl("/returns"), lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: absUrl("/privacy"), lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: absUrl("/contact"), lastModified: now, changeFrequency: "yearly", priority: 0.3 },
   ];
+
 
   const collectionEntries: MetadataRoute.Sitemap = CATEGORIES.filter(
     (c) => c.slug !== "all"

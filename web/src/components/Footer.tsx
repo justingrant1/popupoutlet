@@ -22,17 +22,16 @@ export default function Footer() {
           </div>
           <div>
             <h4>Support</h4>
-            <a href="#">Installation guides</a>
-            <a href="#">Warranty</a>
-            <a href="#">Shipping & returns</a>
-            <a href="#">Contact</a>
+            <a href="/shipping">Shipping</a>
+            <a href="/returns">Returns &amp; refunds</a>
+            <a href="/contact">Contact</a>
           </div>
           <div>
             <h4>Company</h4>
-            <a href="#">About</a>
-            <a href="#">Reviews</a>
-            <a href="#">Trade & wholesale</a>
+            <a href="/privacy">Privacy policy</a>
+            <a href="/contact">Contact us</a>
           </div>
+
         </div>
         <p style={{ marginTop: 30, fontSize: 12 }}>
           © {new Date().getFullYear()} PopupOutlet (demo store). Prices in USD.
